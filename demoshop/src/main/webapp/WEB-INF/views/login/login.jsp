@@ -88,7 +88,14 @@
 			<div class="social-auth-links text-left" style="width: 250px; padding-left: 25px;"><a href="<%=request.getContextPath()%>/dang-ky" class="text-center">Đăng
 				ký </a><br> <a href="<%=request.getContextPath()%>/"
 				class="text-center">Về giao diện mua sắm</a></div>
-			
+			                                    <div class="form-group">
+                                      <div class="btn-group" role="group" aria-label="Basic example" style="height: 50px;width: 360px;">
+			                            <button type="button" class="btn btn-outline-warning btn-sm" data-user="admin">Admin</button>
+			                            <button type="button" class="btn btn-outline-warning btn-sm" data-user="nguyenvana">Nguyễn Văn A</button>
+			                            <button type="button" class="btn btn-outline-warning btn-sm" data-user="nguyenvanb">Nguyễn Văn B</button>
+			                            <button type="button" class="btn btn-outline-warning btn-sm" data-user="nguyenvanc">Nguyễn Văn C</button>
+			                          </div>
+			                        </div>
 
 			<!-- /.social-auth-links -->
 
@@ -124,9 +131,17 @@
 	<!-- AdminLTE for demo purposes -->
 	<script
 		src="<%=request.getContextPath()%>/template/admin/assets/dist/js/demo.js"></script>
-	<script>
-		
-	</script>
-
+									<script>
+									$(document).ready(function() {
+										$("button").click(function() {
+											 var username = $(this).data('user');
+											 var password = "123456";
+											 if (username) {
+											 	$("#username").val(username);
+											 	$("#password").val(password);
+											 }
+										});
+									});
+									</script>   
 </body>
 </html>
