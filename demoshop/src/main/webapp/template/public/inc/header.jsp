@@ -127,7 +127,7 @@
 						<c:set var="username" value="${username}" scope="session" />
 						<c:if test="${not empty username}">
 							<li>Xin chào <a
-								href="<c:url value='/quan-tri/trang-chu' /> "><u>${username}</u></a></li>
+								href="<c:url value='/quan-tri/trang-chu' /> " style="text-decoration: underline;">${username}</a></li>
 							<li><a href="<c:url value='/j_spring_security_logout' /> ">Đăng
 									xuất</a></li>
 						</c:if>
