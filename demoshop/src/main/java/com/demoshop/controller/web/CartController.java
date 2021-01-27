@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.demoshop.dto.OrderDTO;
 import com.demoshop.dto.OrderDetailDTO;
@@ -23,6 +24,7 @@ import com.demoshop.service.IOrderService;
 import com.demoshop.service.IProductImageService;
 import com.demoshop.service.IUserService;
 
+
 @Controller
 public class CartController {
 	@Autowired
@@ -31,16 +33,13 @@ public class CartController {
 	private IProductImageService productImageService;
 	@Autowired
 	private IOrderService orderService;
+	
+	
 	@RequestMapping(value = "/gio-hang", method = RequestMethod.GET)
 	public String viewCart(HttpServletRequest request, Model model) {
 		int totalMoney = 0;
-		List<OrderDetailDTO> cart = new ArrayList<>();
-		HttpSession session = request.getSession();
-		if (session.getAttribute("cart") != null) {
-			cart = (List<OrderDetailDTO>) session.getAttribute("cart");
-		}
-
-		if (cart.size() > 0) {
+		List<OrderDetailDTO> cart = (List<OrderDetailDTO>) request.getSession().getAttribute("cart");
+		if (cart !=null) {
 			for (OrderDetailDTO od : cart) {
 
 				if (od.getProducts().getSalePrice() != 0) {
@@ -50,12 +49,13 @@ public class CartController {
 				}
 
 			}
+			if(!cart.isEmpty()) {
+				model.addAttribute("imageList", productImageService.findProductOneImage());
+				model.addAttribute("totalMoney", totalMoney);
+			}
 		}
 
-		List<ProductImageDTO> imageList = productImageService.findProductOneImage();
-		model.addAttribute("imageList", imageList);
-		model.addAttribute("cart", cart);
-		model.addAttribute("totalMoney", totalMoney);
+		model.addAttribute("cart", cart);	
 		return "/public/cart";
 	}
 
@@ -101,7 +101,7 @@ public class CartController {
 		try {
 			OrderDTO result = new OrderDTO();
 			HttpSession session = request.getSession();
-			 List<OrderDetailDTO> list = (List<OrderDetailDTO>) session.getAttribute("cart");	 
+			 List<OrderDetailDTO> list = (List<OrderDetailDTO>) request.getSession().getAttribute("cart");	 
 			 for (OrderDetailDTO orderDetailDTO : list) {
 				 if(orderDetailDTO.getProducts().getSalePrice() !=0) {
 					 orderDetailDTO.setPrice(orderDetailDTO.getProducts().getSalePrice());
@@ -125,8 +125,7 @@ public class CartController {
 	@RequestMapping(value = "/xem-don-hang", method = RequestMethod.GET)
 	public String checkOrder(HttpServletRequest request, Model model) {
 		try {
-			HttpSession session = request.getSession();
-			String name = (String) session.getAttribute("username");
+			String name = (String) request.getSession().getAttribute("username");
 			UserDTO user = new UserDTO();
 			List<OrderDTO> orderList = new ArrayList<OrderDTO>();
 			if(!StringUtils.isEmpty(name)) {
