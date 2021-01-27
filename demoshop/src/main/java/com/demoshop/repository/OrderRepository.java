@@ -9,7 +9,6 @@ import com.demoshop.entities.OrderEntity;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
-
 	List<OrderEntity> findByCreateBy(String name);
 
 	List<OrderEntity> findAllByOrderByIdDesc(Pageable pageable);

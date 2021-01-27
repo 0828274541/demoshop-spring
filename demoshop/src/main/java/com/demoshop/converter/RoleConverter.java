@@ -1,4 +1,4 @@
-package com.demoshop.converter.admin;
+package com.demoshop.converter;
 
 import org.springframework.stereotype.Component;
 
@@ -7,7 +7,6 @@ import com.demoshop.entities.RoleEntity;
 
 @Component
 public class RoleConverter {
-
 
 	public RoleDTO toDto(RoleEntity entity) {
 		RoleDTO roleDTO = new RoleDTO();

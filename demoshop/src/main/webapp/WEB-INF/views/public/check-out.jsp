@@ -141,11 +141,11 @@
 						</div>
 					</div>
 					<!-- /.field-row -->
-					<div hidden>
+					<div hidden="hidden">
 						<form:input type="text" id="input1" name="totalMoney"
 							path="totalMoney" />
 					</div>
-					<div hidden>
+					<div hidden="hidden">
 						<form:input type="text" id="input2" name="discount"
 							path="discount" />
 					</div>

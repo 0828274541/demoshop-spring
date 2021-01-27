@@ -1,9 +1,9 @@
 package com.demoshop.dto;
 
-public class ProductImageDTO extends AbstractDTO<ProductImageDTO>{
+public class ProductImageDTO extends AbstractDTO<ProductImageDTO> {
 
 	private Long productId;
-	
+
 	private String name;
 
 	public Long getProductId() {
@@ -21,7 +21,5 @@ public class ProductImageDTO extends AbstractDTO<ProductImageDTO>{
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 
 }

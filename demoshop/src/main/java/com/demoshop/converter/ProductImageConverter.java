@@ -1,4 +1,4 @@
-package com.demoshop.converter.admin;
+package com.demoshop.converter;
 
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,6 @@ import com.demoshop.entities.ProductImageEntity;
 @Component
 public class ProductImageConverter {
 
-
 	public ProductImageDTO toDto(ProductImageEntity entity) {
 		ProductImageDTO result = new ProductImageDTO();
 		result.setId(entity.getId());
@@ -16,7 +15,7 @@ public class ProductImageConverter {
 		result.setProductId(entity.getProducts().getId());
 		return result;
 	}
-	
+
 	public ProductImageEntity toEntity(ProductImageDTO dto) {
 		ProductImageEntity result = new ProductImageEntity();
 		result.setName(dto.getName());
@@ -25,7 +24,7 @@ public class ProductImageConverter {
 
 	public ProductImageEntity toEntity(ProductImageEntity result, ProductImageDTO dto) {
 		result.setName(dto.getName());
-		
+
 		return result;
 	}
 }

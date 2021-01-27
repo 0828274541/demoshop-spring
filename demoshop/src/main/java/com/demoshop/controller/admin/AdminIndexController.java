@@ -24,10 +24,10 @@ public class AdminIndexController {
 	IUserService userService;
 	@Autowired
 	IOrderService orderService;
-	
+
 	@RequestMapping(value = "/quan-tri/trang-chu", method = RequestMethod.GET)
 	public String viewAdminIndex(Model model) {
-		
+
 		List<String> roles = SecurityUtils.getAuthorities();
 		if (roles.contains("ROLE_USER")) {
 			return "redirect:/quan-tri/tai-khoan/list";
@@ -38,6 +38,5 @@ public class AdminIndexController {
 		model.addAttribute("countOrder", orderService.getTotalItem());
 		return "admin/index";
 	}
-	
 
 }

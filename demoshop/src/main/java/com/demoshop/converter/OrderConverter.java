@@ -1,22 +1,12 @@
-package com.demoshop.converter.admin;
-
-import java.sql.Timestamp;
+package com.demoshop.converter;
 
 import org.springframework.stereotype.Component;
 
 import com.demoshop.dto.OrderDTO;
 import com.demoshop.entities.OrderEntity;
+
 @Component
 public class OrderConverter {
-
-
-
-
-	public OrderEntity toEntity(OrderEntity result, OrderDTO dto) {
-		return result;
-	}
-
-
 
 	public OrderEntity toEntity(OrderDTO dto) {
 		OrderEntity entity = new OrderEntity();
@@ -27,11 +17,9 @@ public class OrderConverter {
 		return entity;
 	}
 
-
-
 	public OrderDTO toDTO(OrderEntity entity) {
 		OrderDTO result = new OrderDTO();
-		result.setId(entity.getId());	
+		result.setId(entity.getId());
 		result.setTotalMoney(entity.getTotalMoney());
 		result.setDiscount(entity.getDiscount());
 		result.setPaymentMethod(entity.getPaymentMethod());
@@ -39,7 +27,5 @@ public class OrderConverter {
 		result.setCreatedBy(entity.getCreateBy());
 		return result;
 	}
-
-
 
 }

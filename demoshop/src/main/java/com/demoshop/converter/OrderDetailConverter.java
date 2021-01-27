@@ -1,4 +1,4 @@
-package com.demoshop.converter.admin;
+package com.demoshop.converter;
 
 import org.springframework.stereotype.Component;
 
@@ -6,6 +6,7 @@ import com.demoshop.dto.OrderDetailDTO;
 import com.demoshop.entities.OrderDetailEntity;
 import com.demoshop.entities.OrderEntity;
 import com.demoshop.entities.ProductEntity;
+
 @Component
 public class OrderDetailConverter {
 	public OrderDetailEntity toEntity(OrderDetailDTO dto) {

@@ -10,11 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.demoshop.service.ICategoryService;
 
 public class MenuHandlerInterceptor implements HandlerInterceptor {
-	
-	 @Autowired
-	 private ICategoryService categoryService;
-	 
-	 
+
+	@Autowired
+	private ICategoryService categoryService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

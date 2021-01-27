@@ -35,50 +35,49 @@ public class HomeController {
 
 	@Autowired
 	private IProductImageService productImageService;
-	
-	@RequestMapping(value ="/trang-chu", method = RequestMethod.GET )
+
+	@RequestMapping(value = "/trang-chu", method = RequestMethod.GET)
 	public ModelAndView homePage(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
 			@RequestParam(value = "message", required = false) String message,
-			@RequestParam(value = "searchCatId") Optional<Long> searchCatId,
-			@RequestParam Optional<String> searchKey,
+			@RequestParam(value = "searchCatId") Optional<Long> searchCatId, @RequestParam Optional<String> searchKey,
 			final RedirectAttributes redirectAttributes) {
 		ModelAndView mav = new ModelAndView("/public/home-page");
 		ProductDTO model = new ProductDTO();
 		model.setPage(page);
 		model.setLimit(limit);
 		Pageable pageable = new PageRequest(page - 1, limit);
-	  
-	    	model.setListResult(productService.findAll(pageable));
-	    	model.setTotalItem(productService.getTotalItem());
 
-		if(model.getListResult().isEmpty()) {
+		model.setListResult(productService.findAll(pageable));
+		model.setTotalItem(productService.getTotalItem());
+
+		if (model.getListResult().isEmpty()) {
 			mav.addObject("messageError", "Ko co ket qua nao duoc tim thay");
 		}
-		
+
 		model.setTotalPage((int) Math.ceil((double) model.getTotalItem() / model.getLimit()));
-		
+
 		List<ProductImageDTO> imageList = productImageService.findProductOneImage();
-		
+
 		mav.addObject("imageList", imageList);
 		List<ProductImageDTO> imageBanner = new ArrayList<ProductImageDTO>();
-		if(!imageList.isEmpty()) {
-		for (int i = 0;  i<imageList.size() ; i++) {
-			imageBanner.add(imageList.get(i));
-			if(i == 2) {
-				break;
+		if (!imageList.isEmpty()) {
+			for (int i = 0; i < imageList.size(); i++) {
+				imageBanner.add(imageList.get(i));
+				if (i == 2) {
+					break;
+				}
 			}
-		}
 		}
 		mav.addObject("imageBanner", imageBanner);
 		mav.addObject("model", model);
 		return mav;
 
 	}
-	
-	@RequestMapping(value ="/chi-tiet", method = RequestMethod.GET )
-	public String detailPage(@RequestParam(value = "id") long id,
-			final RedirectAttributes redirectAttributes, Model model) {
+
+	@RequestMapping(value = "/chi-tiet", method = RequestMethod.GET)
+	public String detailPage(@RequestParam(value = "id") long id, final RedirectAttributes redirectAttributes,
+			Model model) {
 		try {
 			ProductDTO product = productService.findOneByIdAndStatus(id, 1);
 			model.addAttribute("product", product);
@@ -91,41 +90,42 @@ public class HomeController {
 		}
 		return "/public/detail";
 	}
-	
-	@RequestMapping(value ="/danh-muc", method = RequestMethod.GET )
-	public String categoryPage(@RequestParam(value = "id") long id,@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+
+	@RequestMapping(value = "/danh-muc", method = RequestMethod.GET)
+	public String categoryPage(@RequestParam(value = "id") long id,
+			@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
 			final RedirectAttributes redirectAttributes, Model model) {
 		ProductDTO product = new ProductDTO();
 		try {
 			List<CategoryDTO> catList = new ArrayList<CategoryDTO>();
 			CategoryDTO cat = categoryService.findOne(id);
-			if(cat.getStatus()!=1) {
+			if (cat.getStatus() != 1) {
 				model.addAttribute("error", "Ko tìm thấy danh muc nay");
 				return "/public/category";
 			}
 			catList = categoryService.findById(id);
 			Collections.sort(catList, new Comparator<CategoryDTO>() {
-	            @Override
-	            public int compare(CategoryDTO cat1, CategoryDTO cat2) {
-	                if (cat1.getParentId() < cat2.getParentId()) {
-	                    return -1;
-	                } else {
-	                    if (cat1.getParentId() == cat2.getParentId()) {
-	                        return 0;
-	                    } else {
-	                        return 1;
-	                    }
-	                }
-	            }
-	        });
+				@Override
+				public int compare(CategoryDTO cat1, CategoryDTO cat2) {
+					if (cat1.getParentId() < cat2.getParentId()) {
+						return -1;
+					} else {
+						if (cat1.getParentId() == cat2.getParentId()) {
+							return 0;
+						} else {
+							return 1;
+						}
+					}
+				}
+			});
 			product.setCategoryId(cat.getId());
 			product.setPage(page);
 			product.setLimit(limit);
 			Pageable pageable = new PageRequest(page - 1, limit);
 			ProductDTO model1 = productService.findByCategory(id, pageable);
 			product.setTotalItem(model1.getTotalItem());
-			product.setListResult(model1.getListResult());	
+			product.setListResult(model1.getListResult());
 
 			product.setTotalPage((int) Math.ceil((double) product.getTotalItem() / product.getLimit()));
 			List<ProductImageDTO> imageList = productImageService.findProductOneImage();
@@ -133,11 +133,11 @@ public class HomeController {
 			model.addAttribute("product", product);
 			model.addAttribute("error", 0);
 			model.addAttribute("catList", catList);
-			if(product.getListResult().isEmpty()) {
+			if (product.getListResult().isEmpty()) {
 				model.addAttribute("product", product);
 				model.addAttribute("error", "Ko tìm thấy sản phẩm nao");
 			}
-			
+
 		} catch (Exception e) {
 			product.setPage(0);
 			product.setTotalPage(0);
@@ -147,8 +147,8 @@ public class HomeController {
 		}
 		return "/public/category";
 	}
-	
-	@RequestMapping(value ="/tim-kiem", method = RequestMethod.GET )
+
+	@RequestMapping(value = "/tim-kiem", method = RequestMethod.GET)
 	public String searchPage(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
 			@RequestParam Optional<String> searchKey, Model model) {
@@ -157,25 +157,23 @@ public class HomeController {
 			product.setPage(page);
 			product.setLimit(limit);
 			Pageable pageable = new PageRequest(page - 1, limit);
-		    if(searchKey.isPresent() && StringUtils.isNotBlank(searchKey.get())){
-		    		ProductDTO model1 = new ProductDTO();
+			if (searchKey.isPresent() && StringUtils.isNotBlank(searchKey.get())) {
+				ProductDTO model1 = new ProductDTO();
 
-		    		model1 = productService.getListResultAndTotalItemWithName(searchKey.get(), pageable);
-		    		product.setTotalItem(model1.getTotalItem());
-		    		product.setListResult(model1.getListResult());
-		    		product.setSearchKey(searchKey.get());
-		    	}
-		    	
+				model1 = productService.getListResultAndTotalItemWithName(searchKey.get(), pageable);
+				product.setTotalItem(model1.getTotalItem());
+				product.setListResult(model1.getListResult());
+				product.setSearchKey(searchKey.get());
+			}
 
-				
-		    product.setTotalPage((int) Math.ceil((double) product.getTotalItem() / product.getLimit()));
-				
-				List<ProductImageDTO> imageList = productImageService.findProductOneImage();
-				product.setProImgList(imageList);
-		    	if(product.getListResult().isEmpty()) {
-		    		product.setMessage("Ko có kết quả cần tìm");
-				}
-				model.addAttribute("product", product);
+			product.setTotalPage((int) Math.ceil((double) product.getTotalItem() / product.getLimit()));
+
+			List<ProductImageDTO> imageList = productImageService.findProductOneImage();
+			product.setProImgList(imageList);
+			if (product.getListResult().isEmpty()) {
+				product.setMessage("Ko có kết quả cần tìm");
+			}
+			model.addAttribute("product", product);
 		} catch (Exception e) {
 			product.setMessage("Lỗi !! Vui lòng thử lại sau");
 			product.setSearchKey(searchKey.get());

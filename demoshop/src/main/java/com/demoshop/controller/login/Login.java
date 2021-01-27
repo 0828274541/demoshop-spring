@@ -16,34 +16,35 @@ import com.demoshop.service.IUserService;
 public class Login {
 	@Autowired
 	IUserService userService;
-	
-	@RequestMapping(value ="/dang-nhap", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/dang-nhap", method = RequestMethod.GET)
 	public ModelAndView viewLogin() {
 		ModelAndView mav = new ModelAndView("login/login");
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/accessDenied", method = RequestMethod.GET)
 	public ModelAndView accessDenied() {
 		return new ModelAndView("login/error-403");
 	}
-	
+
 	@RequestMapping(value = "/dang-ky", method = RequestMethod.GET)
 	public ModelAndView register(@ModelAttribute(value = "user") UserDTO user) {
 		ModelAndView mav = new ModelAndView("login/register");
-			mav.addObject("user", user);
+		mav.addObject("user", user);
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/dang-ky", method = RequestMethod.POST)
-	public String Submitregister(@ModelAttribute(value = "user") UserDTO user, final RedirectAttributes redirectAttributes,Model model1) {
-		
+	public String Submitregister(@ModelAttribute(value = "user") UserDTO user,
+			final RedirectAttributes redirectAttributes, Model model1) {
+
 		UserDTO model = new UserDTO();
 		try {
 			model = userService.add(user);
 			if (model.isBooReturn() == false) {
 				model1.addAttribute("messageError", model.getMessage());
-				
+
 			} else {
 				redirectAttributes.addFlashAttribute("messageSuccess", "Đăng ký Thành công !!!");
 				return "redirect:/dang-nhap";
@@ -51,7 +52,7 @@ public class Login {
 		} catch (Exception e) {
 			model1.addAttribute("messageError", "Lỗi. Xin thử lại");
 			System.out.println(e);
-			
+
 		}
 		return "login/register";
 	}

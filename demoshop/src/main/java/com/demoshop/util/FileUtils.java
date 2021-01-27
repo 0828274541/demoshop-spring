@@ -20,7 +20,7 @@ public class FileUtils implements ServletContextAware {
 
 	@Override
 	public void setServletContext(ServletContext servletContext) {
-		this.context = servletContext;
+		FileUtils.context = servletContext;
 
 	}
 
@@ -77,9 +77,7 @@ public class FileUtils implements ServletContextAware {
 
 	public static void deleteFile(String filename) {
 		String filePart = context.getRealPath("uploads") + File.separator + filename;
-		
 		File file = new File(filePart);
-		
 		file.delete();
 	}
 }

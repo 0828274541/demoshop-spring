@@ -5,8 +5,9 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-public class MyUserLogin extends User{
+public class MyUserLogin extends User {
 
+	private static final long serialVersionUID = 1L;
 
 	public MyUserLogin(String username, String password, boolean enabled, boolean accountNonExpired,
 			boolean credentialsNonExpired, boolean accountNonLocked,
@@ -18,8 +19,7 @@ public class MyUserLogin extends User{
 	private String fullname;
 	private String address;
 	private int telephoneNumber;
-	
-	
+
 	public long getId() {
 		return id;
 	}

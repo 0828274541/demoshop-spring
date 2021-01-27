@@ -13,8 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.demoshop.constant.SystemConstant;
-import com.demoshop.converter.admin.RoleConverter;
-import com.demoshop.converter.admin.UserConverter;
+import com.demoshop.converter.RoleConverter;
+import com.demoshop.converter.UserConverter;
 import com.demoshop.dto.MyUserLogin;
 import com.demoshop.dto.RoleDTO;
 import com.demoshop.dto.UserDTO;

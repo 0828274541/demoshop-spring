@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.demoshop.converter.admin.ProductConverter;
-import com.demoshop.converter.admin.ProductImageConverter;
+import com.demoshop.converter.ProductConverter;
+import com.demoshop.converter.ProductImageConverter;
 import com.demoshop.dto.ProductDTO;
 import com.demoshop.dto.ProductImageDTO;
 import com.demoshop.entities.CategoryEntity;

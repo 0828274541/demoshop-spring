@@ -15,7 +15,7 @@ public class ProductDTO extends AbstractDTO<ProductDTO> {
 	private String name;
 
 	private int price;
-	
+
 	private int salePrice;
 
 	private String preview;
@@ -25,7 +25,7 @@ public class ProductDTO extends AbstractDTO<ProductDTO> {
 	private String ram;
 
 	private String cameraFeature;
-	
+
 	private String batteryCapacity;
 
 	private Integer count;
@@ -36,11 +36,11 @@ public class ProductDTO extends AbstractDTO<ProductDTO> {
 	private Date releaseDate;
 
 	private Long categoryId;
-	
+
 	private String categoryName;
-	
+
 	private List<ProductImageDTO> proImgList = new ArrayList<>();
-	
+
 	private List<OrderDetailEntity> orderDetailses = new ArrayList<>();
 
 	private List<MultipartFile> productImageses = new ArrayList<>();
@@ -183,5 +183,4 @@ public class ProductDTO extends AbstractDTO<ProductDTO> {
 		this.proImgList = proImgList;
 	}
 
-	
 }

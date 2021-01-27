@@ -5,15 +5,13 @@ import java.util.List;
 public class OrderDetailDTO extends AbstractDTO<OrderDetailDTO> {
 
 	private Long orderId;
-	
+
 	private OrderDTO orders;
-	
+
 	private ProductDTO products;
-	
+
 	private String productName;
-	
-	
-	
+
 	public Long getOrderId() {
 		return orderId;
 	}
@@ -31,29 +29,27 @@ public class OrderDetailDTO extends AbstractDTO<OrderDetailDTO> {
 	}
 
 	private int quantity;
-	
+
 	private String cartMini;
-	
+
 	private String cartMiniDetail;
 
 	private String priceShow;
-	
+
 	private String totalMoney;
-	
+
 	private String image;
-	
+
 	private String paymentMethod;
-	
+
 	private UserDTO user;
-	
+
 	private int price;
-	
+
 	private List<OrderDetailDTO> orderDetailList;
-	
+
 	private float discount;
-	
-	
-	
+
 	public int getPrice() {
 		return price;
 	}

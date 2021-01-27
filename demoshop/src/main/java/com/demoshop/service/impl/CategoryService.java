@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.demoshop.converter.admin.CategoryConverter;
+import com.demoshop.converter.CategoryConverter;
 import com.demoshop.dto.CategoryDTO;
 import com.demoshop.entities.CategoryEntity;
 import com.demoshop.repository.CategoryRepository;

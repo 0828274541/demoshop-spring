@@ -1,10 +1,11 @@
-package com.demoshop.converter.admin;
+package com.demoshop.converter;
 
 import org.springframework.stereotype.Component;
 
 import com.demoshop.dto.MyUserLogin;
 import com.demoshop.dto.UserDTO;
 import com.demoshop.entities.UserEntity;
+
 @Component
 public class UserConverter {
 
@@ -16,7 +17,7 @@ public class UserConverter {
 		user.setFullname(entity.getFullname());
 		user.setAddress(entity.getAddress());
 		user.setTelephoneNumber(entity.getTelephoneNumber());
-		
+
 		return user;
 	}
 
@@ -47,7 +48,7 @@ public class UserConverter {
 		user.setFullname(dto.getFullname());
 		user.setAddress(dto.getAddress());
 		user.setTelephoneNumber(dto.getTelephoneNumber());
-		
+
 		return user;
 	}
 

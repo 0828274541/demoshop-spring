@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.demoshop.converter.admin.OrderConverter;
-import com.demoshop.converter.admin.OrderDetailConverter;
-import com.demoshop.converter.admin.ProductConverter;
-import com.demoshop.converter.admin.UserConverter;
+import com.demoshop.converter.OrderConverter;
+import com.demoshop.converter.OrderDetailConverter;
+import com.demoshop.converter.ProductConverter;
+import com.demoshop.converter.UserConverter;
 import com.demoshop.dto.OrderDTO;
 import com.demoshop.dto.OrderDetailDTO;
 import com.demoshop.entities.OrderDetailEntity;

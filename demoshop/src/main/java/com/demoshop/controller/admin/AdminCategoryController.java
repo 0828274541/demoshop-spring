@@ -38,7 +38,7 @@ public class AdminCategoryController {
 
 	@RequestMapping(value = "/chinh-sua", method = RequestMethod.GET)
 	public ModelAndView viewEditCategory(@RequestParam(value = "id", required = false) Long id) {
-		ModelAndView mav = 	new ModelAndView("/admin/category/edit");
+		ModelAndView mav = new ModelAndView("/admin/category/edit");
 		CategoryDTO categoryDTO = new CategoryDTO();
 		categoryDTO = categoryService.findByIdAndStatus(id, 1);
 		List<CategoryDTO> recursionList = categoryService.findRecursionList();
@@ -79,10 +79,10 @@ public class AdminCategoryController {
 		}
 
 	}
-	
+
 	@RequestMapping(value = "/chinh-sua", method = RequestMethod.POST)
-	public String editCategory(@ModelAttribute("categoryDTO") CategoryDTO cat, final RedirectAttributes redirectAttributes
-			,Model model12) {
+	public String editCategory(@ModelAttribute("categoryDTO") CategoryDTO cat,
+			final RedirectAttributes redirectAttributes, Model model12) {
 		CategoryDTO model = new CategoryDTO();
 		try {
 			model = categoryService.update(cat);
@@ -99,20 +99,19 @@ public class AdminCategoryController {
 			redirectAttributes.addFlashAttribute("messageError", "Lỗi. Xin thử lại");
 			return "redirect:/quan-tri/danh-muc/chinh-sua";
 		}
-		
+
 	}
-	
+
 	@RequestMapping(value = "/xoa", method = RequestMethod.GET)
 	public String deleteCategory(@ModelAttribute("category") CategoryDTO cat,
 			final RedirectAttributes redirectAttributes) {
 		try {
 			categoryService.delete(cat);
-			if(!StringUtils.isEmpty(cat.getMessage())) {
+			if (!StringUtils.isEmpty(cat.getMessage())) {
 				redirectAttributes.addFlashAttribute("messageError", cat.getMessage());
-			}else {
+			} else {
 				redirectAttributes.addFlashAttribute("messageSuccess", "Xóa thành công..");
 			}
-			
 
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("messageError", "Lỗi. Xin thử lại");

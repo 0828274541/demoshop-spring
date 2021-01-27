@@ -3,18 +3,14 @@ package com.demoshop.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderDTO extends AbstractDTO<OrderDTO>{
+public class OrderDTO extends AbstractDTO<OrderDTO> {
 
 	private float discount;
 	private int totalMoney;
 	private String paymentMethod;
-	
-	
-	
+
 	private UserDTO user;
 	public List<OrderDetailDTO> orderDetails = new ArrayList<OrderDetailDTO>();
-
-
 
 	public UserDTO getUser() {
 		return user;
@@ -55,6 +51,5 @@ public class OrderDTO extends AbstractDTO<OrderDTO>{
 	public void setOrderDetails(List<OrderDetailDTO> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
-	
-	
+
 }

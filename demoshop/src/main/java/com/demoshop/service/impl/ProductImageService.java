@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.demoshop.converter.admin.ProductImageConverter;
+import com.demoshop.converter.ProductImageConverter;
 import com.demoshop.dto.ProductImageDTO;
 import com.demoshop.entities.ProductEntity;
 import com.demoshop.entities.ProductImageEntity;

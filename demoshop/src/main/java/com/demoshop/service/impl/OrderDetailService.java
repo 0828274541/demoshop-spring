@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.demoshop.converter.admin.OrderDetailConverter;
+import com.demoshop.converter.OrderDetailConverter;
 import com.demoshop.dto.OrderDetailDTO;
 import com.demoshop.entities.OrderDetailEntity;
 import com.demoshop.repository.OrderDetailRepository;

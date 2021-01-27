@@ -1,6 +1,5 @@
 package com.demoshop.entities;
 
-
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,9 +20,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class BaseEntity {
 
 	@Id
-	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "created_date", columnDefinition = "TIMESTAMP")
 	@CreatedDate
 	private Date createDate;
@@ -32,7 +31,7 @@ public abstract class BaseEntity {
 	@CreatedBy
 	private String createBy;
 
-	@Column(name = "modified_date" , columnDefinition = "TIMESTAMP")
+	@Column(name = "modified_date", columnDefinition = "TIMESTAMP")
 	@LastModifiedDate
 	private Date modifiedDate;
 
@@ -42,8 +41,7 @@ public abstract class BaseEntity {
 
 	@Column(name = "status")
 	private int status;
-	
-	
+
 	public int getStatus() {
 		return status;
 	}
@@ -92,7 +90,4 @@ public abstract class BaseEntity {
 		this.id = id;
 	}
 
-
-	
-	
 }

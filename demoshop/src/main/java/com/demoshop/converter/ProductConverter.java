@@ -1,4 +1,4 @@
-package com.demoshop.converter.admin;
+package com.demoshop.converter;
 
 import org.springframework.stereotype.Component;
 
@@ -7,7 +7,6 @@ import com.demoshop.entities.ProductEntity;
 
 @Component
 public class ProductConverter {
-
 
 	public ProductDTO toDto(ProductEntity entity) {
 		ProductDTO result = new ProductDTO();
@@ -27,7 +26,7 @@ public class ProductConverter {
 		result.setCategoryName(entity.getCategories().getName());
 		return result;
 	}
-	
+
 	public ProductEntity toEntity(ProductDTO dto) {
 		ProductEntity result = new ProductEntity();
 
@@ -59,8 +58,5 @@ public class ProductConverter {
 		result.setReleaseDate(dto.getReleaseDate());
 		return result;
 	}
-
-
-
 
 }

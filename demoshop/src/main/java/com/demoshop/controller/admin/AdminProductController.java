@@ -40,41 +40,41 @@ public class AdminProductController {
 	public ModelAndView viewProduct(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "limit", required = false, defaultValue = "5") int limit,
 			@RequestParam(value = "message", required = false) String message,
-			@RequestParam(value = "searchCatId") Optional<Long> searchCatId,
-			@RequestParam Optional<String> searchKey,
+			@RequestParam(value = "searchCatId") Optional<Long> searchCatId, @RequestParam Optional<String> searchKey,
 			final RedirectAttributes redirectAttributes) {
 		ModelAndView mav = new ModelAndView("/admin/product/list");
 		ProductDTO model = new ProductDTO();
 		model.setPage(page);
 		model.setLimit(limit);
 		Pageable pageable = new PageRequest(page - 1, limit);
-	    if(searchKey.isPresent() && StringUtils.isNotBlank(searchKey.get())){
-	    	if(searchCatId.isPresent() && searchCatId.get() != 0) {
-	    		ProductDTO model1 = new ProductDTO();
-	    		model1 = productService.getListResultAndTotalItemWithNameAndCategory(searchKey.get(), searchCatId.get(), pageable);
-	    		model.setTotalItem(model1.getTotalItem());
-	    		model.setListResult(model1.getListResult());
-	    		model.setSearchKey(searchKey.get());
-	    		model.setSearchCatId(searchCatId.get());
-	    	}else {
-	    		ProductDTO model1 = new ProductDTO();
+		if (searchKey.isPresent() && StringUtils.isNotBlank(searchKey.get())) {
+			if (searchCatId.isPresent() && searchCatId.get() != 0) {
+				ProductDTO model1 = new ProductDTO();
+				model1 = productService.getListResultAndTotalItemWithNameAndCategory(searchKey.get(), searchCatId.get(),
+						pageable);
+				model.setTotalItem(model1.getTotalItem());
+				model.setListResult(model1.getListResult());
+				model.setSearchKey(searchKey.get());
+				model.setSearchCatId(searchCatId.get());
+			} else {
+				ProductDTO model1 = new ProductDTO();
 
-	    		model1 = productService.getListResultAndTotalItemWithName(searchKey.get(), pageable);
-	    		model.setTotalItem(model1.getTotalItem());
-	    		model.setListResult(model1.getListResult());
-	    		model.setSearchKey(searchKey.get());
-	    	}
-	    	
-	    } else {
-	    	model.setListResult(productService.findAll(pageable));
-	    	model.setTotalItem(productService.getTotalItem());
-	    	model.setSearchCatId((long) 0);
-	    }
-		
-		if(model.getListResult().isEmpty()) {
+				model1 = productService.getListResultAndTotalItemWithName(searchKey.get(), pageable);
+				model.setTotalItem(model1.getTotalItem());
+				model.setListResult(model1.getListResult());
+				model.setSearchKey(searchKey.get());
+			}
+
+		} else {
+			model.setListResult(productService.findAll(pageable));
+			model.setTotalItem(productService.getTotalItem());
+			model.setSearchCatId((long) 0);
+		}
+
+		if (model.getListResult().isEmpty()) {
 			mav.addObject("messageError", "Ko co ket qua nao duoc tim thay");
 		}
-		
+
 		model.setTotalPage((int) Math.ceil((double) model.getTotalItem() / model.getLimit()));
 		List<ProductImageDTO> imageList = productImageService.findAll();
 		List<CategoryDTO> availabilityList = categoryService.findAvailabilityList();
@@ -136,12 +136,14 @@ public class AdminProductController {
 	}
 
 	@RequestMapping(value = "/chinh-sua", method = RequestMethod.POST)
-	public String editProduct(@ModelAttribute("product") ProductDTO pro, BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+	public String editProduct(@ModelAttribute("product") ProductDTO pro, BindingResult bindingResult,
+			final RedirectAttributes redirectAttributes) {
 		ProductDTO model = new ProductDTO();
 		try {
 			model = productService.update(pro);
 			if (model.isBooReturn()) {
-				redirectAttributes.addAttribute("page", pro.getPage()).addFlashAttribute("messageSuccess", model.getMessage());
+				redirectAttributes.addAttribute("page", pro.getPage()).addFlashAttribute("messageSuccess",
+						model.getMessage());
 				return "redirect:/quan-tri/san-pham/list";
 			} else {
 				redirectAttributes.addFlashAttribute("messageError", model.getMessage());
@@ -153,7 +155,7 @@ public class AdminProductController {
 			redirectAttributes.addFlashAttribute("messageError", "Lỗi. Xin thử lại");
 			return "redirect:/quan-tri/san-pham/chinh-sua";
 		}
-		
+
 	}
 
 	@RequestMapping(value = "/xoa", method = RequestMethod.GET)
@@ -161,7 +163,8 @@ public class AdminProductController {
 			final RedirectAttributes redirectAttributes) {
 		try {
 			productService.delete(pro);
-			redirectAttributes.addAttribute("page", pro.getPage()).addFlashAttribute("messageSuccess", "Xóa thành công..");
+			redirectAttributes.addAttribute("page", pro.getPage()).addFlashAttribute("messageSuccess",
+					"Xóa thành công..");
 
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("messageError", "Lỗi. Xin thử lại");

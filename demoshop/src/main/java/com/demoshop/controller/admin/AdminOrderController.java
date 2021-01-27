@@ -24,18 +24,18 @@ public class AdminOrderController {
 	IOrderService orderService;
 	@Autowired
 	IOrderDetailService orderDetailService;
-	
-	@RequestMapping(value ="/list", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView viewOrder(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			@RequestParam(value = "limit", required = false, defaultValue = "5") int limit, Model model) {
 		ModelAndView mav = new ModelAndView("/admin/order/list");
 		List<OrderDetailDTO> orderDetailList = orderDetailService.findAll();
 		Pageable pageable = new PageRequest(page - 1, limit);
 		List<OrderDTO> orderList = orderService.findAll(pageable);
-		if(orderList.isEmpty()) {
+		if (orderList.isEmpty()) {
 			mav.addObject("messageError", "Ko co ket qua nao duoc tim thay");
 		}
-		
+
 		int totalItem = orderService.getTotalItem();
 		int totalPage = (int) Math.ceil((double) totalItem / limit);
 		model.addAttribute("page", page);

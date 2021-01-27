@@ -28,12 +28,13 @@ public class AjaxController {
 	private IProductService productService;
 	@Autowired
 	private IProductImageService productImageService;
-	
+
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/them-vao-gio", method = RequestMethod.POST)
 	public @ResponseBody String addToCart(HttpServletRequest request) {
 		int quantity = Integer.parseInt(request.getParameter("quantity"));
 		Long productId = Long.valueOf(request.getParameter("productId"));
-	
+
 		String ajaxResponse = "";
 		List<OrderDetailDTO> cart = new ArrayList<>();
 		HttpSession session = request.getSession();
@@ -68,10 +69,10 @@ public class AjaxController {
 			OrderDetailDTO od = new OrderDetailDTO();
 			od.setProducts(productDetail);
 			od.setQuantity(quantity);
-			
+
 			List<ProductImageDTO> imgList = productImageService.findProductOneImage();
 			for (ProductImageDTO productImageDTO : imgList) {
-				if(od.getProducts().getId() == productImageDTO.getProductId()) {
+				if (od.getProducts().getId() == productImageDTO.getProductId()) {
 					od.setImage(productImageDTO.getName());
 				}
 			}
@@ -82,6 +83,7 @@ public class AjaxController {
 		return ajaxResponse;
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/gio-hang-mini", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public @ResponseBody String viewCartMini(HttpServletRequest request) {
 		OrderDetailDTO od = new OrderDetailDTO();
@@ -179,11 +181,12 @@ public class AjaxController {
 		return ajaxResponse;
 
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/xoa-san-pham", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public @ResponseBody String dellItemOnCart(HttpServletRequest request) {
 		Long productId = Long.valueOf(request.getParameter("productId"));
-	
+
 		HttpSession session = request.getSession();
 		List<OrderDetailDTO> cart = new ArrayList<>();
 		if (session.getAttribute("cart") != null) {
@@ -202,16 +205,16 @@ public class AjaxController {
 		session.setAttribute("cart", cart);
 		int totalMoney = 0;
 
-			for (OrderDetailDTO od : cart) {
+		for (OrderDetailDTO od : cart) {
 
-				if (od.getProducts().getSalePrice() != 0) {
-					totalMoney += od.getProducts().getSalePrice() * od.getQuantity();
-				} else {
-					totalMoney += od.getProducts().getPrice() * od.getQuantity();
-				}
-
+			if (od.getProducts().getSalePrice() != 0) {
+				totalMoney += od.getProducts().getSalePrice() * od.getQuantity();
+			} else {
+				totalMoney += od.getProducts().getPrice() * od.getQuantity();
 			}
-		
+
+		}
+
 		Locale locale = new Locale("vi", "VN");
 		NumberFormat format = NumberFormat.getCurrencyInstance(locale);
 
@@ -219,7 +222,8 @@ public class AjaxController {
 		return AjaxResponse;
 
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/thay-doi-so-luong", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
 	public @ResponseBody String changeQuantityItem(HttpServletRequest request) {
 		OrderDetailDTO od = new OrderDetailDTO();
@@ -231,28 +235,28 @@ public class AjaxController {
 
 		int quantity1 = Integer.parseInt(request.getParameter("quantity1"));
 		Long productId = Long.valueOf(request.getParameter("productId"));
-	
+
 		List<OrderDetailDTO> cart = new ArrayList<>();
 		HttpSession session = request.getSession();
 		if (session.getAttribute("cart") != null) {
 			cart = (ArrayList<OrderDetailDTO>) session.getAttribute("cart");
 		}
 		if (cart.size() > 0) {
-		for (OrderDetailDTO orderDetail : cart) {
-			if (orderDetail.getProducts().getId() == productId) {
-				orderDetail.setQuantity(quantity1);
+			for (OrderDetailDTO orderDetail : cart) {
+				if (orderDetail.getProducts().getId() == productId) {
+					orderDetail.setQuantity(quantity1);
 
+				}
+				if (orderDetail.getProducts().getSalePrice() != 0) {
+					price = orderDetail.getProducts().getSalePrice();
+				} else {
+					price = orderDetail.getProducts().getPrice();
+				}
 			}
-			if (orderDetail.getProducts().getSalePrice() != 0) {
-				price = orderDetail.getProducts().getSalePrice();
-			} else {
-				price = orderDetail.getProducts().getPrice();
-			}
-		}
 		}
 		session.setAttribute("cart", cart);
-		od.setPriceShow(format.format(price)+" x "+quantity1);
-		
+		od.setPriceShow(format.format(price) + " x " + quantity1);
+
 		int totalMoney = 0;
 		if (cart.size() > 0) {
 			for (OrderDetailDTO od1 : cart) {
@@ -266,7 +270,7 @@ public class AjaxController {
 			}
 		}
 		od.setTotalMoney(format.format(totalMoney));
-		String ajaxResponse ="";
+		String ajaxResponse = "";
 		try
 
 		{

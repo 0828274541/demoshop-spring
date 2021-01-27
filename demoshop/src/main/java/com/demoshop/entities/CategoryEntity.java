@@ -16,10 +16,10 @@ public class CategoryEntity extends BaseEntity {
 
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "parent_id", nullable = false)
 	private Long parentId;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categories")
 	private List<ProductEntity> productses = new ArrayList<>();
 
@@ -46,8 +46,5 @@ public class CategoryEntity extends BaseEntity {
 	public void setProductses(List<ProductEntity> productses) {
 		this.productses = productses;
 	}
-
-	
-	
 
 }
