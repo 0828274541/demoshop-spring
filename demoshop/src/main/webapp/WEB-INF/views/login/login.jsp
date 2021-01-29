@@ -4,6 +4,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ include file="/template/taglib.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,16 +17,16 @@
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome -->
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/template/admin/assets/plugins/fontawesome-free/css/all.min.css">
+	href="<c:url value ='/template/admin/assets/plugins/fontawesome-free/css/all.min.css' /> ">
 <!-- icheck bootstrap -->
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/template/admin/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+	href="<c:url value ='/template/admin/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css' /> ">
 <!-- Theme style -->
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/template/admin/assets/dist/css/adminlte.min.css">
+	href="<c:url value ='/template/admin/assets/dist/css/adminlte.min.css' /> ">
 <!-- SweetAlert 2 -->
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/template/admin/assets/plugins/sweetalert2/sweetalert2.min.css">
+	href="<c:url value ='/template/admin/assets/plugins/sweetalert2/sweetalert2.min.css' /> ">
 </head>
 <body class="hold-transition login-page">
 	<div class="login-box">
@@ -113,24 +114,24 @@
 
 	<!-- jQuery -->
 	<script
-		src="<%=request.getContextPath()%>/template/admin/assets/plugins/jquery/jquery.min.js"></script>
+		src="<c:url value ='/template/admin/assets/plugins/jquery/jquery.min.js' /> "></script>
 	<!-- Bootstrap 4 -->
 	<script
-		src="<%=request.getContextPath()%>/template/admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		src="<c:url value ='/template/admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js' /> "></script>
 	<!-- AdminLTE App -->
 	<script
-		src="<%=request.getContextPath()%>/template/admin/assets/dist/js/adminlte.min.js"></script>
+		src="<c:url value ='/template/admin/assets/dist/js/adminlte.min.js' /> "></script>
 	<!-- SweetAlert 2 -->
 	<script
-		src="<%=request.getContextPath()%>/template/admin/assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+		src="<c:url value ='/template/admin/assets/plugins/sweetalert2/sweetalert2.min.js' /> "></script>
 	<!-- jquery-validation -->
 	<script
-		src="<%=request.getContextPath()%>/template/admin/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+		src="<c:url value ='/template/admin/assets/plugins/jquery-validation/jquery.validate.min.js' /> "></script>
 	<script
-		src="<%=request.getContextPath()%>/template/admin/assets/plugins/jquery-validation/additional-methods.min.js"></script>
+		src="<c:url value ='/template/admin/assets/plugins/jquery-validation/additional-methods.min.js' /> "></script>
 	<!-- AdminLTE for demo purposes -->
 	<script
-		src="<%=request.getContextPath()%>/template/admin/assets/dist/js/demo.js"></script>
+		src="<c:url value ='/template/admin/assets/dist/js/demo.js' /> "></script>
 									<script>
 									$(document).ready(function() {
 										$("button").click(function() {
