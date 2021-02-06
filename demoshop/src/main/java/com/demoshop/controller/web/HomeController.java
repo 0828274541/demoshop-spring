@@ -15,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.demoshop.dto.CategoryDTO;
@@ -37,41 +36,28 @@ public class HomeController {
 	private IProductImageService productImageService;
 
 	@RequestMapping(value = "/trang-chu", method = RequestMethod.GET)
-	public ModelAndView homePage(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
-			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit,
-			@RequestParam(value = "message", required = false) String message,
-			@RequestParam(value = "searchCatId") Optional<Long> searchCatId, @RequestParam Optional<String> searchKey,
-			final RedirectAttributes redirectAttributes) {
-		ModelAndView mav = new ModelAndView("/public/home-page");
+	public String homePage(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+			@RequestParam(value = "limit", required = false, defaultValue = "10") int limit, Model modelReturn) {
 		ProductDTO model = new ProductDTO();
 		model.setPage(page);
 		model.setLimit(limit);
 		Pageable pageable = new PageRequest(page - 1, limit);
-
 		model.setListResult(productService.findAll(pageable));
 		model.setTotalItem(productService.getTotalItem());
 
-		if (model.getListResult().isEmpty()) {
-			mav.addObject("messageError", "Ko co ket qua nao duoc tim thay");
-		}
-
-		model.setTotalPage((int) Math.ceil((double) model.getTotalItem() / model.getLimit()));
-
-		List<ProductImageDTO> imageList = productImageService.findProductOneImage();
-
-		mav.addObject("imageList", imageList);
-		List<ProductImageDTO> imageBanner = new ArrayList<ProductImageDTO>();
-		if (!imageList.isEmpty()) {
-			for (int i = 0; i < imageList.size(); i++) {
-				imageBanner.add(imageList.get(i));
-				if (i == 2) {
-					break;
-				}
-			}
-		}
-		mav.addObject("imageBanner", imageBanner);
-		mav.addObject("model", model);
-		return mav;
+		if (!model.getListResult().isEmpty()) {
+			model.setTotalPage((int) Math.ceil((double) model.getTotalItem() / model.getLimit()));
+			List<ProductDTO> bannerList = new ArrayList<ProductDTO>();
+				for (int i = 0; i < model.getListResult().size(); i++) {
+					bannerList.add(model.getListResult().get(i));
+					if (i == 2) {
+						break;
+					}
+				}			
+			modelReturn.addAttribute("bannerList", bannerList);
+			modelReturn.addAttribute("model", model);
+		}	
+		return "/public/home-page";
 
 	}
 
@@ -137,7 +123,6 @@ public class HomeController {
 				model.addAttribute("product", product);
 				model.addAttribute("error", "Ko tìm thấy sản phẩm nao");
 			}
-
 		} catch (Exception e) {
 			product.setPage(0);
 			product.setTotalPage(0);
@@ -163,20 +148,21 @@ public class HomeController {
 				model1 = productService.getListResultAndTotalItemWithName(searchKey.get(), pageable);
 				product.setTotalItem(model1.getTotalItem());
 				product.setListResult(model1.getListResult());
-				product.setSearchKey(searchKey.get());
+				if (product.getListResult().isEmpty()) {
+					product.setMessage("Ko có kết quả cần tìm");
+					model.addAttribute("searchKey", searchKey.get());
+					return "/public/search";
+				}
 			}
 
 			product.setTotalPage((int) Math.ceil((double) product.getTotalItem() / product.getLimit()));
-
 			List<ProductImageDTO> imageList = productImageService.findProductOneImage();
 			product.setProImgList(imageList);
-			if (product.getListResult().isEmpty()) {
-				product.setMessage("Ko có kết quả cần tìm");
-			}
+			model.addAttribute("searchKey", searchKey.get());
 			model.addAttribute("product", product);
 		} catch (Exception e) {
 			product.setMessage("Lỗi !! Vui lòng thử lại sau");
-			product.setSearchKey(searchKey.get());
+			model.addAttribute("searchKey", searchKey.get());
 			model.addAttribute("product", product);
 		}
 		return "/public/search";

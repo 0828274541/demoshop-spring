@@ -45,14 +45,15 @@ public class ProductService implements IProductService {
 
 	@Override
 	public List<ProductDTO> findAll(Pageable pageable) {
-		List<ProductDTO> models = new ArrayList<>();
+		List<ProductDTO> list = new ArrayList<>();
 		List<ProductEntity> entities = productRepository.findByStatusOrderByIdDesc(1, pageable);
 
 		for (ProductEntity item : entities) {
 			ProductDTO productDTO = productConverter.toDto(item);
-			models.add(productDTO);
+			productDTO.setProductImage(productImageService.findAvatarProduct(productDTO.getId()));
+			list.add(productDTO);
 		}
-		return models;
+		return list;
 	}
 
 	@Override

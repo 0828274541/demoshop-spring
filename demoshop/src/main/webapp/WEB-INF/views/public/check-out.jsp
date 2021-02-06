@@ -9,15 +9,14 @@
 
 <section id="checkout-page">
 	<div class="container">
+	
 		<div class="col-xs-12 no-margin">
+		<c:choose>
+ 		<c:when test="${not empty order && fn:length(order.orderDetails) > 0}">
 			<section id="your-order">
 				<h2 class="border h1">Đơn hàng của bạn : </h2>
-					<c:if test="${empty cartList }">
-						<h1 class="border">Chưa có sản phẩm nào</h1>
-					</c:if>
-				<form>
-					<c:if test="${not empty cartList }">
-						<c:forEach var="item" items="${cartList}">
+					<form>
+						<c:forEach var="item" items="${order.orderDetails}">
 							<div class="row no-margin order-item">
 								<div class="col-xs-12 col-sm-1 no-margin">
 									<a href="#" class="qty">${item.quantity} x</a>
@@ -50,9 +49,7 @@
 							</div>
 							<!-- /.order-item -->
 						</c:forEach>
-					</c:if>
-
-				</form>
+						</form>
 			</section>
 			<!-- /#your-order -->
 
@@ -109,8 +106,8 @@
 
 			<div class="billing-address">
 				<h2 class="border h1">Địa chỉ</h2>
-				<c:url var="order" value="/dat-hang" />
-				<form:form action="${order}" modelAttribute="order" id="orderForm"
+				<c:url var="orderUrl" value="/dat-hang" />
+				<form:form action="${orderUrl}" modelAttribute="order" id="orderForm"
 					method="POST">
 					<form:input type="hidden" path="user.id" />
 					<div class="row field-row">
@@ -158,25 +155,35 @@
 						</div>
 					</div>
 					<!-- /.field-row -->
-					<c:if test="${not empty cartList }">
+					<c:if test="${not empty order.orderDetails }">
 						<div class="place-order-button">
 							<button type="submit" class="le-button big">Đặt hàng</button>
 						</div>
 						<!-- /.place-order-button -->
 					</c:if>
-					<c:if test="${empty cartList }">
-						<div class="place-order-button">
-							<a href="<c:url value ='trang-chu' /> " class="le-button big">Về
-								mua hàng</a>
-						</div>
+					<c:if test="${empty order.orderDetails }">
+				
 						<!-- /.place-order-button -->
 					</c:if>
 				</form:form>
 
 			</div>
 			<!-- /.billing-address -->
+			</c:when>
+  <c:otherwise>
+				<div class="col-xs-12 no-margin">
+<h1 class="border">Chưa có sản phẩm nào</h1>
+</div>
+		<div class="place-order-button" style="float: left">
+							<a href="<c:url value ='trang-chu' /> " class="le-button big">Về
+								mua hàng</a>
+						</div>
+				</c:otherwise>
+</c:choose>
 		</div>
 		<!-- /.col -->
+		
+
 	</div>
 	<!-- /.container -->
 </section>
@@ -192,11 +199,13 @@
 
 <script>
   $(document).ready(function() {  
-	
+		
+
+			
 		
 	 $("#cart1").hide();
 	 
-	 function formatCurrency(n, separate = "."){
+	 function formatCurrency(n){
 		  var s = n.toString();
 		  var len = s.length;
 		  var ret = "";
@@ -204,7 +213,7 @@
 		    ret = s[(len-i)] + ret;
 		    
 		    if( i % 3  === 0 && i < len) {
-		      ret = separate + ret;
+		      ret = "." + ret;
 		    }
 		  }
 		  return ret;
@@ -218,7 +227,7 @@
    	   			$("#valueCoupon").html("50%");
    	   			
    	   			var totalMoneySaleOff = moneyCurrent * 50 / 100;
-   	   			$('#myDiv2').html(formatCurrency(totalMoneySaleOff, ".")+"&nbsp;₫");
+   	   			$('#myDiv2').html(formatCurrency(totalMoneySaleOff)+"&nbsp;₫");
    	   			$('#input1').val(totalMoneySaleOff);
    	   			$('#input2').val(0.5);
    	   		 }else{

@@ -46,6 +46,16 @@ public class ProductDTO extends AbstractDTO<ProductDTO> {
 	private List<MultipartFile> productImageses = new ArrayList<>();
 
 	private List<CommentEntity> commentses = new ArrayList<>();
+	
+	private ProductImageDTO productImage;
+
+	public ProductImageDTO getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(ProductImageDTO productImage) {
+		this.productImage = productImage;
+	}
 
 	public Long getCategoryId() {
 		return categoryId;

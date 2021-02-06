@@ -12,7 +12,6 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.demoshop.dto.ProductImageDTO;
-
 @Component
 public class FileUtils implements ServletContextAware {
 

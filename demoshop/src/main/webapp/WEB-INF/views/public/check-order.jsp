@@ -16,68 +16,62 @@
                     <div class="col-lg-8 center-block">
 
                         <div class="section">
-
-                            
-
-                                <div class="field-row row form-row form-row-first">
-                                    <div class="col-xs-12">
-                                   <c:if test="${not empty orderList }">
-											<c:forEach var="item" items="${orderList}">
-                                        <label for="orderid">Ma đơn hàng: ${item.id}</label>
+                         <div class="field-row row form-row form-row-first">
+					<div class="col-xs-12">
+						<c:if test="${not empty orderList }">
+							<c:forEach var="item" items="${orderList}">
+								<div style="border-bottom-style: solid;">
+								<label for="orderid">Ma đơn hàng: ${item.id}</label>
 								<c:set var="totalMoney" value="${item.totalMoney}" />
 								<label for="orderid">Tổng tiền: <fmt:formatNumber
 										value="${totalMoney}" type="currency" /></label>
 								<label for="orderid">Ngày tạo: ${item.createdDate}</label>
-                                        <label for="orderid">Giảm giá: ${item.discount * 100}&#37;</label>
-                                        <div>
-                                    	<table id="example1" class="table table-bordered table-striped">
-                                    	
-                                    		<thead>
-                 								 <tr>
-								                    <th>Tên sản phẩm</th>        
-								                    <th>Số lượng</th>
-								                    <th>Đơn Giá</th>
-								                 </tr>
-								            </thead>
-								                  <tbody>
-								             	<c:if test="${not empty orderDetailList }">
-													<c:forEach var="itemDetail" items="${orderDetailList}">
+								<label for="orderid">Giảm giá: ${item.discount * 100}&#37;</label>
+								<div>
+									<table id="example1" class="table table-bordered table-striped">
 
-													<c:if test="${item.id == itemDetail.orderId}">
-														<tr>
-															<td>${itemDetail.productName}</td>
-															<td>${itemDetail.quantity}</td>
-															<c:set var="price" value="${itemDetail.price}" />
-															<td><fmt:formatNumber
-																	value="${price}" type="currency" /></td>
-														</tr>
-													</c:if>
-												</c:forEach>
-								                 </c:if>
-											
-											</tbody>
-								                
-								            </table>
-                                    	</div>
-                  						----------------------------------------------- <br>
-                                    </c:forEach>
-                                    </c:if>
-                                   
-                                   <c:if test="${not empty username}">
-                                    <c:if test="${empty orderList }">
-                                    <div class="page-header">
-                        				<h2 class="page-title">Bạn chưa có đơn hàng nào</h2>
-                   					</div>
-                                    </c:if>
-                                    </c:if>
-                                   <c:if test="${empty username }">
-                                   <div class="page-header">
-                                   		<h2 class="page-title">Vui lòng đăng nhập để kiểm tra</h2>
-                                   </div>
-                                   </c:if>
-                                    </div>
-                                   
-                                </div>
+										<thead>
+											<tr>
+												<th>Tên sản phẩm</th>
+												<th>Số lượng</th>
+												<th>Đơn Giá</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="itemDetail" items="${item.orderDetails}">
+
+												<tr>
+													<td>${itemDetail.products.name}</td>
+													<td>${itemDetail.quantity}</td>
+													<c:set var="price" value="${itemDetail.price}" />
+													<td><fmt:formatNumber value="${price}" type="currency" /></td>
+												</tr>
+											</c:forEach>
+
+
+										</tbody>
+
+									</table>
+								</div>
+                  				</div>		
+							</c:forEach>
+						</c:if>
+
+						<c:if test="${not empty username}">
+							<c:if test="${empty orderList }">
+								<div class="page-header">
+									<h2 class="page-title">Bạn chưa có đơn hàng nào</h2>
+								</div>
+							</c:if>
+						</c:if>
+						<c:if test="${empty username }">
+							<div class="page-header">
+								<h2 class="page-title">Vui lòng đăng nhập để kiểm tra</h2>
+							</div>
+						</c:if>
+					</div>
+
+				</div>
                              
                            
                         </div>
@@ -92,5 +86,11 @@
             </div>
             <!-- ============================================================= FOOTER ============================================================= -->
         <%@ include file="/template/public/inc/footer.jsp" %>
-   
+        <script>
+        var message = '${message}'
+			if(message != ""){
+				alert(message)
+			}
+        </script>
+   		
   

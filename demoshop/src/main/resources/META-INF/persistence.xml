@@ -14,5 +14,6 @@
 		<class>com.demoshop.entities.OrderDetailEntity</class>
 		<class>com.demoshop.entities.OrderEntity</class>
 		<class>com.demoshop.entities.ProductImageEntity</class>
+
 	</persistence-unit>
 </persistence>

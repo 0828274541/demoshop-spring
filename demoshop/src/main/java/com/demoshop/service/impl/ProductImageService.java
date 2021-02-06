@@ -50,24 +50,6 @@ public class ProductImageService implements IProductImageService{
 	}
 
 	@Override
-	public ProductImageDTO update(ProductImageDTO updateProductImage) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ProductImageDTO delete(long[] ids) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ProductImageDTO add() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<ProductImageDTO> findProductOneImage() {
 		List<ProductImageDTO> list = new ArrayList<ProductImageDTO>();
 		List<ProductImageEntity> entityList = productImageRepository.findProductImage();
@@ -75,6 +57,16 @@ public class ProductImageService implements IProductImageService{
 			list.add(productImageConverter.toDto(productImageEntity));
 		}
 		return list;
+	}
+
+	@Override
+	public ProductImageDTO findAvatarProduct(Long productId) {
+		ProductImageEntity item = productImageRepository.findOneByProductId(productId);
+		ProductImageDTO itemDTO = new ProductImageDTO();
+		if(item!= null) {
+			itemDTO = productImageConverter.toDto(item);
+		}
+		return itemDTO;
 	}
 	
 

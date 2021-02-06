@@ -8,4 +8,8 @@ public interface IOrderDetailService {
 
 	List<OrderDetailDTO> findAll();
 
+	List<OrderDetailDTO> findByOrderId(Long id);
+
+	void add(OrderDetailDTO orderDetailDTO);
+
 }

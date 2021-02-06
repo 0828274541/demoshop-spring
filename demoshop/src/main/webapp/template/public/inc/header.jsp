@@ -62,15 +62,13 @@
 <!-- Demo Purpose Only. Should be removed in production : END -->
 
 <!-- Fonts -->
-<link
-	href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800'
-	rel='stylesheet' type='text/css'>
+
 
 <!-- Icons/Glyphs -->
 <link rel="stylesheet"
 	href="<c:url value='/template/public/assets/css/font-awesome.min.css' /> ">
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' /> ">
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Favicon -->
 <link rel="shortcut icon"
 	href="<c:url value='/template/public/assets/images/favicon.ico' /> ">
@@ -127,7 +125,7 @@
 						<c:set var="username" value="${username}" scope="session" />
 						<c:if test="${not empty username}">
 							<li>Xin chào <a
-								href="<c:url value='/quan-tri/trang-chu' /> " style="text-decoration: underline;">${username}</a></li>
+								href="<c:url value='/quan-tri/trang-chu' /> "><u>${username}</u></a></li>
 							<li><a href="<c:url value='/j_spring_security_logout' /> ">Đăng
 									xuất</a></li>
 						</c:if>
@@ -232,90 +230,65 @@
 
 				<div class="col-xs-12 col-md-3 top-cart-row no-margin">
 					<div class="top-cart-row-container">
-
 						<!-- ============================================================= SHOPPING CART DROPDOWN ============================================================= -->
 						<div class="top-cart-holder dropdown animate-dropdown" id="cart1">
 							<div class="basket">
-								<c:set var="cart" value="${cart}" scope="session" />
+								<c:set var="cart" value="${order}" scope="session" />
 								<a id="eventAddCart" class="dropdown-toggle"
 									data-toggle="dropdown" href="#">
 									<div class="basket-item-count">
-										<span class="count">${fn:length(cart)}</span> <img
+										<span class="count">${fn:length(cart.orderDetails)}</span> <img
 											src="<c:url value='/template/public/assets/images/icon-cart.png' />" />
 									</div>
-
 									<div class="total-price-basket">
 										<span class="lbl">Giỏ hàng:</span> <span class="total-price">
-											<c:if test="${not empty cart}">
-												<c:forEach var="item" items="${cart}">
-
-													<c:choose>
-														<c:when test="${item.products.salePrice != 0}">
-															<c:set var="totalMoney"
-																value="${item.products.salePrice * item.quantity}" />
-														</c:when>
-														<c:otherwise>
-															<c:set var="totalMoney"
-																value="${item.products.price * item.quantity}" />
-														</c:otherwise>
-													</c:choose>
-												</c:forEach>
-											</c:if> <span class="value"><div id="mydiv1">
+											<c:set var="totalMoney" value="${cart.totalMoney}" /> <span
+											class="value"><div id="mydiv1">
 													<fmt:formatNumber value="${totalMoney}" type="currency" />
 												</div></span>
-
 										</span>
 									</div>
 								</a>
 
 								<ul class="dropdown-menu">
 									<div id="viewCart">
-										<c:if test="${not empty cart}">
-											<c:forEach var="item" items="${cart}">
+										<c:if test="${not empty cart.orderDetails}">
+											<c:forEach var="item" items="${cart.orderDetails}">
+											<li id='${item.products.id}'>
 												<div class="basket-item">
 													<div class="row">
 														<div class="col-xs-4 col-sm-4 no-margin text-center">
-
 															<div class="thumb">
-																<a
-																	href="<c:url value='/chi-tiet?id=${item.products.id}' />">
-																	<img alt="" height="50px" width="50px"
+																<a href="<c:url value='/chi-tiet?id=${item.products.id}' />">
+																<c:choose>
+																<c:when test="${item.image != null}">
+																<img  height="50px" width="50px"
 																	src="${pageContext.request.contextPath}/uploads/${item.image}" />
-
-
+																</c:when>
+																<c:otherwise>
+																<img  height="50px" width="50px"
+																	src='${pageContext.request.contextPath}/template/public/assets/images/noimg.png' />
+																</c:otherwise>
+																</c:choose>
 																</a>
 															</div>
 
 														</div>
 														<div class="col-xs-8 col-sm-8 no-margin">
-
 															<div class="title">
-																<a
-																	href="<c:url value='/chi-tiet?id=${item.products.id}' />">${item.products.name}</a>
+																<a href="<c:url value='/chi-tiet?id=${item.products.id}' />  style='font-weight: bold;'">${item.products.name}</a>
 															</div>
-
-															<c:set var="price" value="${item.products.price}" />
-															<c:set var="salePrice" value="${item.products.salePrice}" />
-															<c:choose>
-																<c:when test="${item.products.salePrice != 0}">
-																	<div class="price">
-																		<fmt:formatNumber value="${salePrice}" type="currency" />
-																		x ${item.quantity}
-																	</div>
-																</c:when>
-																<c:otherwise>
-																	<div class="price">
-
-																		<fmt:formatNumber value="${price}" type="currency" />
-																		x ${item.quantity}
-																	</div>
-																</c:otherwise>
-															</c:choose>
-
+															<c:set var="price" value="${item.price}" />
+															<div class="price">
+																<fmt:formatNumber value="${price}" type="currency" />
+																x ${item.quantity}
+															</div>
 														</div>
 													</div>
-													<a class="close-btn xoa" onclick='dellItem(this)'
-														id="${item.products.id}" href="#">Xoa</a>
+													<button type='button' class="close-btn xoa"
+														onclick='dellItem(this)' id="${item.products.id}"
+														style='font-weight: bold; font-size: medium; float: right;'>Xóa
+													</button>
 												</div>
 												</li>
 											</c:forEach>
@@ -352,41 +325,42 @@
 		</header>
 		<!-- ============================================================= HEADER : END ============================================================= -->
 		<script>
-		var message = '${message}'
-			if(message != ""){
-				alert(message)
-				window.location.href = "${checkOrder}";
+		function formatCurrency(n){
+			  var s = n.toString();
+			  var len = s.length;
+			  var ret = "";
+			  for(var i = 1; i <= len; i++) {
+			    ret = s[(len-i)] + ret;
+			    
+			    if( i % 3  === 0 && i < len) {
+			      ret = "." + ret;
+			    }
+			  }
+			  return ret +" đ";
 			}
-			
+
+
 			function dellItem(obj) {
 				var productId = obj.id;
 				$.ajax({
 					url : '${dellItemOnCart}',
 					type : 'GET',
 					cache : false,
+					contentType : "application/json; charset=utf-8",
 					data : {
 						productId : productId,
 					},
-
-					success : function() {
+					dataType : 'json',
+					success : function(response) {
 						$('#' + productId).remove();
-						$.ajax({
-							//show so luong va tong so tien trong gio hang va chi tiet gio hang
-							url : '${viewCartMini}',
-
-							type : 'GET',
-							cache : false,
-							dataType : 'json',
-
-							success : function(data) {
-								$('#eventAddCart').html(data.cartMini);
-								$('#viewCart').html(data.cartMiniDetail);
-							},
-							error : function() {
-								alert('Có 2lỗi xảy ra');
-							}
-
-						});
+						var cartMini = "<div class='basket-item-count'>"+
+						"<span class='count'>" +response.orderDetails.length +"</span>"+
+						"<img src='${pageContext.request.contextPath}/template/public/assets/images/icon-cart.png' alt='' /></div>"+
+						"<div class='total-price-basket'>"+
+						"<span class='lbl'>Giỏ hàng:</span>"+
+						"<span class='total-price'>"+
+						"<span class='value'>" + formatCurrency(response.totalMoney) + "</span></span></div>";
+						$('#eventAddCart').html(cartMini);
 					},
 					error : function() {
 						alert('Có lỗi xảy ra');

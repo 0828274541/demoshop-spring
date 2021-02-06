@@ -10,12 +10,8 @@ public interface IProductImageService {
 
 	ProductImageDTO add(ProductImageDTO productImageDTO);
 
-	ProductImageDTO update(ProductImageDTO updateProductImage);
-
-	ProductImageDTO delete(long[] ids);
-
-	ProductImageDTO add();
-
 	List<ProductImageDTO> findProductOneImage();
+
+	ProductImageDTO findAvatarProduct(Long productId);
 
 }

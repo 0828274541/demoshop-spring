@@ -90,11 +90,11 @@
 					<div class="le-quantity">
 						<form id="quickForm">
 							<a class="minus" href="#reduce"></a> <input id="quantity"
-								name="quantity" readonly="readonly" type="input" value="1"
+								name="quantity" readonly="readonly" type="text" value="1"
 								min="1" /> <a class="plus" href="#add"></a>
 						</form>
 					</div>
-					<a id="addToCart" href="#" class="le-button huge">Thêm vào giỏ</a>
+					<button id="addToCart" class="le-button huge">Thêm vào giỏ</button>
 				</div>
 				<!-- /.qnt-holder -->
 			</div>
@@ -133,8 +133,8 @@
 
 				<div class="tab-pane" id="additional-info">
 					<ul class="tabled-data">
-						<input type="hidden" id="productId" value="${product.id}"
-							name="${product.id}" />
+						<li><input type="hidden" id="productId" value="${product.id}"
+							name="${product.id}" /></li>
 						<li><label>Khối lượng</label>
 							<div class="value">20 kg</div></li>
 						<li><label>Kích thước</label>
@@ -173,69 +173,106 @@
 
 <%@ include file="/template/public/inc/footer.jsp"%>
 <script>
-	$(document).ready(function() {
+	function formatCurrency(n){
+	  var s = n.toString();
+	  var len = s.length;
+	  var ret = "";
+	  for(var i = 1; i <= len; i++) {
+	    ret = s[(len-i)] + ret;
+	    
+	    if( i % 3  === 0 && i < len) {
+	      ret = "." + ret;
+	    }
+	  }
+	  return ret +" đ";
+	}
+	
+	$(document).on('click', '.basket', function(e) {
+		e.stopPropagation();
+	});
+	
+	$(document)
+			.ready(
+					function() {
 						var error = '${error}';
 						if (error != 0) {
 							alert(error);
 						}
-
 						if (!!window.performance
 								&& window.performance.navigation.type == 2) {
 							window.location.reload();
 						}
-
-
-						$('#addToCart').click(function() {
+						$('#addToCart')
+								.click(
+										function() {
 											var quantity = $('#quantity').val();
-											var productId = $('#productId').val();
-
-											//alert(productId);
-											$.ajax({url : '${addToCart}',
-													type : 'POST',
-													cache : false,
+											var productId = $('#productId')
+													.val();
+											$
+													.ajax({
+														url : '${addToCart}',
+														type : 'GET',
+														contentType : "application/json; charset=utf-8",
+														cache : false,
 														data : {
 															quantity : quantity,
 															productId : productId,
 														},
-
+														dataType : 'json',
 														success : function(
-																responseText) {
-															/* $('#result').text(responseText);
-															myDivObj = document.getElementById("result"); */
-															if (responseText == 1) {
+																response) {
+															if (response == null) {
 																if (window
 																		.confirm('Bạn có muốn đăng nhập để thêm hàng vào giỏ?')) {
 																	window.location = "${login}";
-																} else {
-																	// They clicked no
 																}
+															}else{
+																alert("Thêm vào giỏ hàng thành công")
+																var cartMini = "<div class='basket-item-count'>"+
+																"<span class='count'>" +response.orderDetails.length +"</span>"+
+																"<img src='${pageContext.request.contextPath}/template/public/assets/images/icon-cart.png' alt='' /></div>"+
+																"<div class='total-price-basket'>"+
+																"<span class='lbl'>Giỏ hàng:</span>"+
+																"<span class='total-price'>"+
+																"<span class='value'>" + formatCurrency(response.totalMoney) + "</span></span></div>";
+														
+																var cartMiniDetail = '';
+																for(var i = 0; i< response.orderDetails.length; i++) {
+																	cartMiniDetail += "<li id=" + response.orderDetails[i].products.id + ">"
+																		+"<div class='basket-item'>"
+																	+ "<div class='row'>"
+																	+ "<div class='col-xs-4 col-sm-4 no-margin text-center'>"
+																	+ "<div class='thumb'>"
+																	+ "<a href='${pageContext.request.contextPath}/chi-tiet?id=" + response.orderDetails[i].products.id
+																	+ "'>";
+																	if (response.orderDetails[i].image != null) {
+																		cartMiniDetail += "<img  height='50px' width='50px' src='${pageContext.request.contextPath}/uploads/"
+																				+ response.orderDetails[i].image + "' />";
+																	} else {
+																		cartMiniDetail += "<img  height='50px' width='50px' src='${pageContext.request.contextPath}/template/public/assets/images/noimg.png' />";
+																	}
+																	cartMiniDetail += "</a></div></div>"
+																	+ "<div class='col-xs-8 col-sm-8 no-margin'>"
+																	+ "<div class='title'>"
+																	+ "<a href='${pageContext.request.contextPath}/chi-tiet?id=" + response.orderDetails[i].products.id
+																			+ "' style='font-weight: bold;'>"
+																	+ response.orderDetails[i].products.name + "</a></div>"
+																	+ "<div class='price'>"
+																	+ formatCurrency(response.orderDetails[i].price) + " x " + response.orderDetails[i].quantity
+																	+"</div></div></div>"
+																	+"<button type='button' class='close-btn xoa' id='" + response.orderDetails[i].products.id
+																	+ "' onclick='dellItem(this)' style='font-weight: bold; font-size: medium; float: right;'>Xóa </button>"
+																	+"</div></li>";
+																}
+																$('#eventAddCart').html(cartMini);
+																$('#viewCart').html(cartMiniDetail);
 															}
-															if (responseText == '2') {
-																alert('thêm hàng vào giỏ thành công');
-																$.ajax({
-																			//show so luong va tong so tien trong gio hang va chi tiet gio hang
-																			url : '${viewCartMini}',
-																			type : 'GET',
-																			cache : false,
-																			dataType : 'json',
 
-																			success : function(
-																					data) {
-																				$('#eventAddCart').html(data.cartMini);
-																				$('#viewCart').html(data.cartMiniDetail);
-																			},
-																			error : function() {
-																				alert('Có 2lỗi xảy ra');
-																			}
-
-																		});
-															}
 														},
 														error : function() {
 															alert('Có lỗi xảy ra');
 														}
 													});
-
 										});
 					});
 </script>

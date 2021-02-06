@@ -12,22 +12,6 @@ public class OrderDetailDTO extends AbstractDTO<OrderDetailDTO> {
 
 	private String productName;
 
-	public Long getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
 	private int quantity;
 
 	private String cartMini;
@@ -50,6 +34,23 @@ public class OrderDetailDTO extends AbstractDTO<OrderDetailDTO> {
 
 	private float discount;
 
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	
 	public int getPrice() {
 		return price;
 	}

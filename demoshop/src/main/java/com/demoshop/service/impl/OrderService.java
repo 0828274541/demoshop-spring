@@ -16,12 +16,13 @@ import com.demoshop.dto.OrderDetailDTO;
 import com.demoshop.entities.OrderDetailEntity;
 import com.demoshop.entities.OrderEntity;
 import com.demoshop.entities.ProductEntity;
-import com.demoshop.entities.UserEntity;
 import com.demoshop.repository.OrderDetailRepository;
 import com.demoshop.repository.OrderRepository;
 import com.demoshop.repository.ProductRepository;
 import com.demoshop.repository.UserRepository;
+import com.demoshop.service.IOrderDetailService;
 import com.demoshop.service.IOrderService;
+import com.demoshop.service.IUserService;
 
 @Service
 public class OrderService implements IOrderService {
@@ -41,14 +42,15 @@ public class OrderService implements IOrderService {
 	ProductRepository productRepository;
 	@Autowired
 	ProductConverter productConverter;
-
+	@Autowired
+	IUserService userService;
+	@Autowired
+	IOrderDetailService orderDetailService;
 	@Override
-	public OrderDTO add(OrderDTO order) {
+	public Long add(OrderDTO order) {
 		// Update user
-		UserEntity userEntityOld = userRepository.findOne(order.getUser().getId());
-		UserEntity userEntity = userConverter.toEntity(userEntityOld, order.getUser());
-		userRepository.save(userEntity);
-
+		userService.update(order.getUser());
+		
 		// Add don hang
 		OrderEntity orderEntity = orderConverter.toEntity(order);
 		OrderEntity result = orderRepository.save(orderEntity);
@@ -59,11 +61,9 @@ public class OrderService implements IOrderService {
 			OrderDTO orderDTO = new OrderDTO();
 			orderDTO.setId(result.getId());
 			orderDetailDTO.setOrders(orderDTO);
-			OrderDetailEntity orderDetailEntity = orderDetailConverter.toEntity(orderDetailDTO);
-			orderDetailRepository.save(orderDetailEntity);
+			orderDetailService.add(orderDetailDTO);		
 		}
-		OrderDTO orderResult = orderConverter.toDTO(result);
-		return orderResult;
+		return result.getId();
 	}
 
 	@Override

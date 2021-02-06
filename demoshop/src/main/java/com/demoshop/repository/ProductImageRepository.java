@@ -17,4 +17,7 @@ public interface ProductImageRepository extends JpaRepository<ProductImageEntity
 	@Query(value = "SELECT * FROM product_images u GROUP BY u.product_id", nativeQuery = true)
 	List<ProductImageEntity> findProductImage();
 
+	@Query(value = "SELECT * FROM product_images AS p WHERE p.product_id = ? GROUP BY p.product_id", nativeQuery = true)
+	ProductImageEntity findOneByProductId(Long productId);
+
 }

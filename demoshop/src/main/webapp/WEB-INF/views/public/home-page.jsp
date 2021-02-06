@@ -21,10 +21,20 @@
 				<div id="owl-main" class="owl-carousel owl-inner-nav owl-ui-sm">
 
 
-					<c:if test="${not empty imageBanner}">
-						<c:forEach var="itemBanner" items="${imageBanner}">
+					<c:if test="${not empty bannerList}">
+						<c:forEach var="itemBanner" items="${bannerList}">
+							<c:choose>
+								<c:when test="${itemBanner.productImage.name != null}">
+									<c:set var="imageBanner"
+										value="${pageContext.request.contextPath}/uploads/${itemBanner.productImage.name}" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="imageBanner"
+										value="${pageContext.request.contextPath}/template/public/assets/images/noimg.png" />
+								</c:otherwise>
+							</c:choose>
 							<div class="item"
-								style="background-image: url(${pageContext.request.contextPath}/uploads/${itemBanner.name});  background-size: 300px 200px;">
+								style="background-image: url(${imageBanner});  background-size: 300px 200px;">
 								<div class="container-fluid">
 									<div class="caption vertical-center text-left" style="color:white">
 										<div class="big-text fadeInDown-1">
@@ -38,7 +48,7 @@
 										<div class="small fadeInDown-2">máy tính bảng cho bạn</div>
 										<div class="button-holder fadeInDown-3">
 											<a
-												href="<c:url value ='chi-tiet?id=${itemBanner.productId}' /> "
+												href="<c:url value ='chi-tiet?id=${itemBanner.id}' /> "
 												class="big le-button ">Mua ngay</a>
 										</div>
 									</div>
@@ -89,16 +99,22 @@
 										<span>Mới!</span>
 									</div>
 									<div class="image">
-										<a href="<c:url value='chi-tiet?id=${item.id}'/>"> <c:if
-												test="${not empty imageList}">
-												<c:forEach var="itemImage" items="${imageList}">
-													<c:if test="${item.id == itemImage.productId}">
+										<a href="<c:url value='chi-tiet?id=${item.id}'/>"> 
+								<c:choose>
+								<c:when test="${item.productImage.name != null}">
+									<c:set var="image"
+										value="${pageContext.request.contextPath}/uploads/${item.productImage.name}" />
+								</c:when>
+								<c:otherwise>
+									<c:set var="image"
+										value="${pageContext.request.contextPath}/template/public/assets/images/noimg.png" />
+								</c:otherwise>
+							</c:choose>
+											
 														<img height="200px"
-															src="${pageContext.request.contextPath}/uploads/${itemImage.name}" />
-													</c:if>
-												</c:forEach>
-											</c:if>
-										</a>
+															src="${image}" />
+												
+													</a>
 
 
 									</div>

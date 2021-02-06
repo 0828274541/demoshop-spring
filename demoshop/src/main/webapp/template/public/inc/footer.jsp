@@ -36,8 +36,7 @@
 	src="<c:url value='/template/public/assets/js/jquery-migrate-1.2.1.js' />"></script>
 <script
 	src="<c:url value='/template/public/assets/js/bootstrap.min.js' />"></script>
-<script
-	src="http://maps.google.com/maps/api/js?sensor=false&amp;language=en"></script>
+
 <script src="<c:url value='/template/public/assets/js/gmap3.min.js' />"></script>
 <script
 	src="<c:url value='/template/public/assets/js/bootstrap-hover-dropdown.min.js' />"></script>

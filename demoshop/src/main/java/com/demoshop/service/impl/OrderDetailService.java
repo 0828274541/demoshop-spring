@@ -29,4 +29,23 @@ public class OrderDetailService implements IOrderDetailService{
 	}
 
 
+	@Override
+	public List<OrderDetailDTO> findByOrderId(Long id) {
+		List<OrderDetailEntity> entityList = orderDetailRepository.findAllByOrder(id);
+		List<OrderDetailDTO> dtoList = new ArrayList<>();
+		for (OrderDetailEntity orderDetailEntity : entityList) {
+			dtoList.add(orderDetailConverter.toDTO(orderDetailEntity));
+		}
+		return dtoList;
+	}
+
+
+	@Override
+	public void add(OrderDetailDTO orderDetailDTO) {
+		OrderDetailEntity orderDetailEntity = orderDetailConverter.toEntity(orderDetailDTO);
+		orderDetailRepository.save(orderDetailEntity);
+		
+	}
+
+
 }

@@ -21,7 +21,6 @@ public class CategoryService implements ICategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-
 	@Autowired
 	private CategoryConverter categoryConverter;
 	@Autowired
@@ -36,14 +35,12 @@ public class CategoryService implements ICategoryService {
 	@Override
 	@Transactional
 	public CategoryDTO add(CategoryDTO dto) {
-	
 		List<CategoryDTO> list = findByStatus(1);
 		for (CategoryDTO categoryDTO : list) {
 			if (dto.getName().equals(categoryDTO.getName())) {
 				dto.setMessage("Tên danh mục đã tồn tại");
 				return dto;
 			}
-
 		}
 		CategoryEntity newCategory = categoryConverter.toEntity(dto);
 		newCategory.setStatus(1);
@@ -59,7 +56,6 @@ public class CategoryService implements ICategoryService {
 			CategoryDTO categoryDTO = categoryConverter.toDto(item);
 			models.add(categoryDTO);
 		}
-
 		return models;
 	}
 
@@ -91,7 +87,6 @@ public class CategoryService implements ICategoryService {
 			CategoryDTO categoryDTO = categoryConverter.toDto(item);
 			models.add(categoryDTO);
 		}
-
 		return models;
 	}
 
@@ -176,7 +171,6 @@ public class CategoryService implements ICategoryService {
 				}
 			}
 		}
-
 		return availabilityList;
 	}
 

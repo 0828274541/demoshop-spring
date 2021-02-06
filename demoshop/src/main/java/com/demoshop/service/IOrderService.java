@@ -8,7 +8,7 @@ import com.demoshop.dto.OrderDTO;
 
 public interface IOrderService {
 
-	OrderDTO add(OrderDTO order);
+	Long add(OrderDTO order);
 	
 	List<OrderDTO> findByUser(String name);
 
